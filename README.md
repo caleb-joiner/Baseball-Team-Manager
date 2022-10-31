@@ -2,6 +2,7 @@
 Python class project
 
 Chapter 1: Intro to Python Programming
+
 Chapter 2: How to Write Your First Programs
 
     Baseball Team Manager Case Study
