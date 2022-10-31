@@ -32,14 +32,14 @@ def add(lineup):
 
     if position in positions:
         at_bats = int(input("Enter number of at bats: "))
-        if at_bats < 0:
+        while at_bats < 0:
             print("At bats must be greater than 0. Try again.")
             at_bats = int(input("Enter number of at bats: "))
         hits = int(input("Enter number of hits: "))
-        if hits < 0:
+        while hits < 0:
             print("Hits must be greater than 0. Try again.")
             hits = int(input("Enter number of hits: "))
-        if hits > at_bats:
+        while hits > at_bats:
             print("Hits cannot be greater than at bats. Try again.")
             hits = int(input("Enter number of hits: "))
     else:
