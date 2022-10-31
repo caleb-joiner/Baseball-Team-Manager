@@ -21,7 +21,7 @@ def calc_avg():
         exit()
     else:
         print("Not a valid option. Please try again.")
-        calc_avg()
+        main_menu()
 
 def main():
     main_menu()
