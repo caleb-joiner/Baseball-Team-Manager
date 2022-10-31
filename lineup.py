@@ -2,29 +2,87 @@ def main_menu():
     print("=============================================================")
     print("Baseball Team Manager")
     print("MENU OPTIONS")
-    print("1 - Calculate batting average")
-    print("2 - Exit program")
+    print("1 - Display lineup")
+    print("2 - Add player")
+    print("3 - Remove player")
+    print("4 - Move player")
+    print("5 - Edit player position")
+    print("6 - Edit player stats")
+    print("7 - Exit program")
+    print()
+    print("POSITIONS")
+    print("C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "P")
     print("=============================================================")
     print()
 
-def calc_avg():
-    user_choice = int(input("Enter a menu option: "))
-    if user_choice == 1:
-        name = input("Enter player's name: ")
-        at_bats = int(input("Enter player's at bats: "))
-        hits = int(input("Enter player's hits: "))
-        average = round(hits / at_bats, 3)
-
-        print(f"{name}'s batting average is {average}")
-    elif user_choice == 2:
-        print("Goodbye.")
-        exit()
+def display(lineup):
+    if len(lineup) == 0:
+        print("The lineup is empty. Add players to it.")
+        add(lineup)
     else:
-        print("Not a valid option. Please try again.")
-        main_menu()
+        for i, player in enumerate(lineup, start = 1):
+            print(f"{i}. {player[0]}")
+        print()
+
+def add(lineup):
+    positions = ("C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "P")
+
+    name = str(input("Enter players last name: "))
+    position = str(input("Enter players position: ")).upper()
+
+    if position in positions:
+        at_bats = int(input("Enter number of at bats: "))
+        if at_bats < 0:
+            print("At bats must be greater than 0. Try again.")
+            at_bats = int(input("Enter number of at bats: "))
+        hits = int(input("Enter number of hits: "))
+        if hits < 0:
+            print("Hits must be greater than 0. Try again.")
+            hits = int(input("Enter number of hits: "))
+        if hits > at_bats:
+            print("Hits cannot be greater than at bats. Try again.")
+            hits = int(input("Enter number of hits: "))
+    else:
+        print("Not a valid position. Try again.")
+        add(lineup)
+    print()
+
+    average = round(hits / at_bats, 3)
+    player = [name.title(), position.upper(), at_bats, hits, average]
+    lineup.append(player)
+    print(f"{player[0]} was added to the lineup.")
+
+def remove(lineup):
+    display(lineup)
+    number = int(input("Enter the lineup number you'd like to remove: "))
+
+    if number < 1 or number > len(lineup):
+        print("Enter a valid lineup number. Try again.")
+        remove(lineup)
+    else:
+        player = lineup.pop(number - 1)
+        print(f"{player[0]} was removed from the lineup.")
+    print()
 
 def main():
-    main_menu()
-    calc_avg()
+    lineup = []
 
-main()
+    main_menu()
+
+    while True:
+        user_choice = int(input("Enter a menu option: "))
+        if user_choice == 1:
+            display(lineup)
+        elif user_choice == 2:
+            add(lineup)
+        elif user_choice == 3:
+            remove(lineup)
+        elif user_choice == 7:
+            break
+        else:
+            print("Not a valid menu option. Try again.")
+    print("Goodbye.")
+
+
+if __name__ == "__main__":
+    main()
