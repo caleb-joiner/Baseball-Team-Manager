@@ -18,11 +18,12 @@ def main_menu():
 def display(lineup):
     if len(lineup) == 0:
         print("The lineup is empty. Add players to it.")
+        print()
         add(lineup)
     else:
         for i, player in enumerate(lineup, start = 1):
             print(f"{i}. {player[0]}")
-        print()
+    print()
 
 def add(lineup):
     positions = ("C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "P")
@@ -30,6 +31,7 @@ def add(lineup):
     name = str(input("Enter players last name: "))
     position = str(input("Enter players position: ")).upper()
 
+# UnboundLocalError for (average) if position is messed up
     if position in positions:
         at_bats = int(input("Enter number of at bats: "))
         while at_bats < 0:
@@ -64,6 +66,13 @@ def remove(lineup):
         print(f"{player[0]} was removed from the lineup.")
     print()
 
+def move(lineup):
+    oldindex = int(input("Enter the lineup position you want to move: "))
+    newindex = int(input("Enter the new lineup position: "))
+
+    lineup.insert(newindex - 1, lineup.pop(oldindex - 1))
+    display(lineup)
+
 def main():
     lineup = []
 
@@ -77,12 +86,13 @@ def main():
             add(lineup)
         elif user_choice == 3:
             remove(lineup)
+        elif user_choice == 4:
+            move(lineup)
         elif user_choice == 7:
             break
         else:
             print("Not a valid menu option. Try again.")
     print("Goodbye.")
-
 
 if __name__ == "__main__":
     main()
