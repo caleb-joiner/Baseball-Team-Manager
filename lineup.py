@@ -76,9 +76,8 @@ def move(lineup):
 def main():
     lineup = []
 
-    main_menu()
-
     while True:
+        main_menu()
         user_choice = int(input("Enter a menu option: "))
         if user_choice == 1:
             display(lineup)
