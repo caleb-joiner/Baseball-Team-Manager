@@ -25,8 +25,7 @@ def display(lineup):
             print(f"{i}. {player[0]}")
     print()
 
-def add(lineup):
-    positions = ("C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "P")
+def add(lineup, positions):
 
     name = str(input("Enter players last name: "))
     position = str(input("Enter players position: ")).upper()
@@ -46,8 +45,7 @@ def add(lineup):
             hits = int(input("Enter number of hits: "))
     else:
         print("Not a valid position. Try again.")
-        add(lineup)
-    print()
+        add(lineup, positions)
 
     average = round(hits / at_bats, 3)
     player = [name.title(), position.upper(), at_bats, hits, average]
@@ -73,8 +71,30 @@ def move(lineup):
     lineup.insert(newindex - 1, lineup.pop(oldindex - 1))
     display(lineup)
 
+def edit_pos(lineup, positions):
+    ind = int(input("Enter player index to edit: "))
+    print("Player details", lineup[ind - 1])
+    pos = input("Enter new position: ").upper()
+    if pos in positions:
+        lineup[ind - 1][1] = pos
+    else:
+        print("Enter valid position.")
+        edit_pos()
+
+def edit_stats(lineup):
+    ind = int(input("Enter player index to edit: "))
+    print("Player details", lineup[ind - 1])
+    new_abs = int(input("Enter at bats: "))
+    new_hits = int(input("Enter hits: "))
+    new_avg = round(new_hits / new_abs, 3)
+    
+    lineup[ind - 1][2] = new_abs
+    lineup[ind - 1][3] = new_hits
+    lineup[ind - 1][4] = new_avg
+
 def main():
-    lineup = []
+    lineup = []    
+    positions = ("C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "P")
 
     while True:
         main_menu()
@@ -82,11 +102,15 @@ def main():
         if user_choice == 1:
             display(lineup)
         elif user_choice == 2:
-            add(lineup)
+            add(lineup, positions)
         elif user_choice == 3:
             remove(lineup)
         elif user_choice == 4:
             move(lineup)
+        elif user_choice == 5:
+            edit_pos(lineup, positions)
+        elif user_choice == 6:
+            edit_stats(lineup)
         elif user_choice == 7:
             break
         else:
