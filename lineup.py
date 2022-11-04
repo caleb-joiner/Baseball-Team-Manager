@@ -1,3 +1,21 @@
+import csv
+
+FILENAME = "lineup.csv"
+
+def write_lineup(lineup):
+    with open(FILENAME, "w") as file:
+        writer = csv.writer(file)
+        writer.writerows(lineup)
+
+            
+def read_lineup():
+    lineup = []
+    with open(FILENAME, newline="") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            lineup.append(row)
+    return lineup
+
 def main_menu():
     print("=============================================================")
     print("Baseball Team Manager")
@@ -50,6 +68,7 @@ def add(lineup, positions):
     average = round(hits / at_bats, 3)
     player = [name.title(), position.upper(), at_bats, hits, average]
     lineup.append(player)
+    write_lineup(lineup)
     print(f"{player[0]} was added to the lineup.")
 
 def remove(lineup):
@@ -61,6 +80,7 @@ def remove(lineup):
         remove(lineup)
     else:
         player = lineup.pop(number - 1)
+        write_lineup(lineup)
         print(f"{player[0]} was removed from the lineup.")
     print()
 
@@ -77,6 +97,7 @@ def edit_pos(lineup, positions):
     pos = input("Enter new position: ").upper()
     if pos in positions:
         lineup[ind - 1][1] = pos
+        write_lineup(lineup)
     else:
         print("Enter valid position.")
         edit_pos()
@@ -91,9 +112,10 @@ def edit_stats(lineup):
     lineup[ind - 1][2] = new_abs
     lineup[ind - 1][3] = new_hits
     lineup[ind - 1][4] = new_avg
+    write_lineup(lineup)
 
 def main():
-    lineup = []    
+    lineup = read_lineup()    
     positions = ("C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "P")
 
     while True:
