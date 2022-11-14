@@ -50,13 +50,21 @@ def add(lineup, positions):
 
 # UnboundLocalError for (average) if position is messed up
     if position in positions:
-        at_bats = int(input("Enter number of at bats: "))
-        while at_bats < 0:
-            print("At bats must be greater than 0. Try again.")
+        try:
             at_bats = int(input("Enter number of at bats: "))
-        hits = int(input("Enter number of hits: "))
-        while hits < 0:
-            print("Hits must be greater than 0. Try again.")
+            while at_bats < 0:
+                print("At bats must be greater than 0. Try again.")
+                at_bats = int(input("Enter number of at bats: "))
+        except ValueError:
+            print("Enter a valid input for at bats.")
+            at_bats = int(input("Enter number of at bats: "))
+        try:
+            hits = int(input("Enter number of hits: "))
+            while hits < 0:
+                print("Hits must be greater than 0. Try again.")
+                hits = int(input("Enter number of hits: "))
+        except ValueError:
+            print("Enter a valid input for hits.")
             hits = int(input("Enter number of hits: "))
         while hits > at_bats:
             print("Hits cannot be greater than at bats. Try again.")
@@ -66,7 +74,7 @@ def add(lineup, positions):
         add(lineup, positions)
 
     average = round(hits / at_bats, 3)
-    player = [name.title(), position.upper(), at_bats, hits, average]
+    player = [name.title(), position.upper(), at_bats, hits, format(average, ".3f")]
     lineup.append(player)
     write_lineup(lineup)
     print(f"{player[0]} was added to the lineup.")
